@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://b2yy3axurey8"]
+
+[ext_resource type="Texture2D" uid="uid://bu1388yyk3517" path="res://assets/free_-_skybox_cliffside_0.hdr" id="1_sul5r"]
+[ext_resource type="PackedScene" uid="uid://cs2qklebmc6rf" path="res://scenes/player/player.tscn" id="3_0sr1o"]
+[ext_resource type="PackedScene" uid="uid://cxouyjm7mm48d" path="res://scenes/spawner/spawner.tscn" id="3_kelw5"]
+[ext_resource type="PackedScene" uid="uid://dbkb8ao7sgvi1" path="res://scenes/playercamera/player_camera.tscn" id="4_kelw5"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_sul5r"]
+panorama = ExtResource("1_sul5r")
+energy_multiplier = 0.8
+
+[sub_resource type="Sky" id="Sky_sul5r"]
+sky_material = SubResource("PanoramaSkyMaterial_sul5r")
+
+[sub_resource type="Environment" id="Environment_7h61r"]
+background_mode = 2
+sky = SubResource("Sky_sul5r")
+glow_enabled = true
+
+[node name="Game" type="Node" unique_id=1509687313]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1092209821]
+transform = Transform3D(0.8003927, -0.5791895, 0.15463248, 0.1868198, 0.48609284, 0.85370505, -0.5696227, -0.6544111, 0.49726933, 5.784213, 3.7296422, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1540275284]
+environment = SubResource("Environment_7h61r")
+
+[node name="Player" parent="." unique_id=855462797 instance=ExtResource("3_0sr1o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0)
+
+[node name="Spawner" parent="." unique_id=432526626 instance=ExtResource("3_kelw5")]
+
+[node name="PlayerCamera" parent="." unique_id=1867962 instance=ExtResource("4_kelw5")]
+transform = Transform3D(1, 0, 0, 0, 0.81915206, 0.57357645, 0, -0.57357645, 0.81915206, 0, 10, 8)

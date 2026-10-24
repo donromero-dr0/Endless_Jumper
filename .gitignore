@@ -1,0 +1,19 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# AI Tooling & Assistants (Antigravity, Gemini, Claude, Cursor, Copilot, etc.)
+.gemini/
+.antigravity/
+.claude/
+.cursor/
+.cursorrules
+.copilot/
+*antigravity*
+*gemini*
+*claude*
+CLAUDE.md
+AGENTS.md
+chat_history*
+*.prompt
+*.prompts

@@ -14,6 +14,7 @@ extends Node3D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var timer: Timer = $Timer
 @onready var area_3d: Area3D = $Area3D
+@onready var land_effect: AudioStreamPlayer = $LandEffect
 
 # --- Internal State ---
 var _is_triggered: bool = false
@@ -43,5 +44,6 @@ func _trigger_platform() -> void:
 
 	var wait_duration: float = base_wait_time * randf_range(min_time_variance, max_time_variance)
 	timer.start(wait_duration)
+	land_effect.play()
 	
 	SignalHub.emit_new_platform(global_position)

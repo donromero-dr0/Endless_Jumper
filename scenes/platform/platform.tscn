@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://b5ktt33qbjes4"]
 
 [ext_resource type="Script" uid="uid://e7ygph2gdarf" path="res://scenes/platform/platform.gd" id="1_x2c4s"]
+[ext_resource type="AudioStream" uid="uid://bvu7v1gc7i0gk" path="res://assets/audio/Land1.wav" id="2_7j252"]
+[ext_resource type="AudioStream" uid="uid://dj68ysptjbauw" path="res://assets/audio/Land2.wav" id="3_j0qm6"]
+[ext_resource type="AudioStream" uid="uid://dsasrqketchya" path="res://assets/audio/Land3.wav" id="4_yevkn"]
 
 [sub_resource type="Animation" id="Animation_vnirk"]
 length = 0.001
@@ -40,6 +43,12 @@ _data = {
 &"vanish": SubResource("Animation_lfp4y")
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8pv2r"]
+streams_count = 3
+stream_0/stream = ExtResource("2_7j252")
+stream_1/stream = ExtResource("3_j0qm6")
+stream_2/stream = ExtResource("4_yevkn")
+
 [node name="Platform" type="Node3D" unique_id=362960797]
 script = ExtResource("1_x2c4s")
 
@@ -61,6 +70,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.37410784, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=651586020]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08460152, 0)
+
+[node name="LandEffect" type="AudioStreamPlayer" parent="." unique_id=1641889078]
+stream = SubResource("AudioStreamRandomizer_8pv2r")
+volume_db = -5.0
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

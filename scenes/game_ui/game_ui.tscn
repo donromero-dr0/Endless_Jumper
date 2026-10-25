@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dyntsquxbyef5"]
+
+[ext_resource type="FontFile" uid="uid://lx0eovtet7dj" path="res://assets/font/TitanOne-Regular.ttf" id="1_sq0em"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_hpurd"]
+font = ExtResource("1_sq0em")
+
+[node name="GameUI" type="Control" unique_id=1188022679]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MC" type="MarginContainer" parent="." unique_id=1965749858]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="MC" unique_id=346151964]
+layout_mode = 2
+text = "0000"
+label_settings = SubResource("LabelSettings_hpurd")

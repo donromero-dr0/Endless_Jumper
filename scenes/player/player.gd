@@ -7,6 +7,7 @@ extends CharacterBody3D
 @export var gravity: float = 60.0
 @export var ROTATION_SPEED: float = 4.0
 @export var MOVE_SPEED: float = 3.5
+@export var FALL_OFF_MARGIN: float = 20.0
 
 # --- Shadow Settings ---
 @export_group("Drop Shadow")
@@ -21,6 +22,15 @@ extends CharacterBody3D
 @onready var shadow_ray: RayCast3D = $RayCast3D
 @onready var shadow_decal: Decal = $ShadowDecal
 @onready var animation_player: AnimationPlayer = $"character-female-a2/AnimationPlayer"
+@onready var fallen_off_sound: AudioStreamPlayer = $FallenOffSound
+
+
+var _fall_off_y: float = 0.0
+var _fell_off: bool = false
+
+
+func _ready() -> void:
+	_fall_off_y = position.y - FALL_OFF_MARGIN
 
 
 func _process(_delta: float) -> void:
@@ -33,6 +43,14 @@ func _physics_process(delta: float) -> void:
 	handle_rotation(delta)
 	move_and_slide()
 	handle_animation()
+	handle_fall()
+
+
+func handle_fall() -> void:
+	if not _fell_off and position.y < _fall_off_y:
+		_fell_off = true
+		fallen_off_sound.play()
+
 
 func handle_animation() -> void:
 	if velocity.y > 0:
@@ -82,3 +100,7 @@ func update_drop_shadow() -> void:
 	# Optionally fade transparency with height
 	if shadow_fade_with_distance:
 		shadow_decal.modulate.a = lerpf(1.0, shadow_min_alpha, t)
+
+
+func _on_fallen_off_sound_finished() -> void:
+	print("Game Over")

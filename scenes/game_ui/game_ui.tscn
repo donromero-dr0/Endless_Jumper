@@ -1,25 +1,97 @@
 [gd_scene format=3 uid="uid://dyntsquxbyef5"]
 
-[ext_resource type="FontFile" uid="uid://lx0eovtet7dj" path="res://assets/font/TitanOne-Regular.ttf" id="1_sq0em"]
+[ext_resource type="Script" uid="uid://dlmg0guiyi2u" path="res://scenes/game_ui/game_ui.gd" id="1_najyh"]
+[ext_resource type="LabelSettings" uid="uid://kaing7c04ktw" path="res://resources/score_label.tres" id="1_sq0em"]
+[ext_resource type="FontFile" uid="uid://lx0eovtet7dj" path="res://assets/font/TitanOne-Regular.ttf" id="2_1i64n"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_hpurd"]
-font = ExtResource("1_sq0em")
+[sub_resource type="LabelSettings" id="LabelSettings_sq0em"]
+font = ExtResource("2_1i64n")
+font_size = 96
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_gmlin"]
+font = ExtResource("2_1i64n")
+font_size = 38
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
 
 [node name="GameUI" type="Control" unique_id=1188022679]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_najyh")
 
 [node name="MC" type="MarginContainer" parent="." unique_id=1965749858]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
 
-[node name="Label" type="Label" parent="MC" unique_id=346151964]
+[node name="ScoreLabel" type="Label" parent="MC" unique_id=346151964]
 layout_mode = 2
+size_flags_horizontal = 0
 text = "0000"
-label_settings = SubResource("LabelSettings_hpurd")
+label_settings = ExtResource("1_sq0em")
+
+[node name="HighScoreLabel" type="Label" parent="MC" unique_id=909643122]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Best: 0000"
+label_settings = ExtResource("1_sq0em")
+horizontal_alignment = 2
+
+[node name="GameOverRect" type="ColorRect" parent="." unique_id=309727533]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.17254902, 0.1254902, 0.54901963)
+
+[node name="Label" type="Label" parent="GameOverRect" unique_id=931808544]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.5
+offset_top = -28.0
+offset_right = 140.5
+offset_bottom = 28.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_sq0em")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Restart" type="Label" parent="GameOverRect" unique_id=1566000010]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -185.5
+offset_top = -28.0
+offset_right = 185.5
+offset_bottom = 28.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 100)
+text = "Press R to restart"
+label_settings = SubResource("LabelSettings_gmlin")
+horizontal_alignment = 1
+vertical_alignment = 1

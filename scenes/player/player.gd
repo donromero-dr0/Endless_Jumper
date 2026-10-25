@@ -5,9 +5,9 @@ extends CharacterBody3D
 @export_group("Movement")
 @export var jump_force: float = 30.0
 @export var gravity: float = 60.0
-@export var ROTATION_SPEED: float = 4.0
-@export var MOVE_SPEED: float = 3.5
-@export var FALL_OFF_MARGIN: float = 20.0
+@export var rotation_speed: float = 4.0
+@export var move_speed: float = 3.5
+@export var fall_off_margin: float = 20.0
 
 # --- Shadow Settings ---
 @export_group("Drop Shadow")
@@ -24,13 +24,14 @@ extends CharacterBody3D
 @onready var animation_player: AnimationPlayer = $"character-female-a2/AnimationPlayer"
 @onready var fallen_off_sound: AudioStreamPlayer = $FallenOffSound
 
-
+# --- State ---
 var _fall_off_y: float = 0.0
 var _fell_off: bool = false
+var _best_height: float = 0.0
 
 
 func _ready() -> void:
-	_fall_off_y = position.y - FALL_OFF_MARGIN
+	_fall_off_y = global_position.y - fall_off_margin
 
 
 func _process(_delta: float) -> void:
@@ -43,13 +44,34 @@ func _physics_process(delta: float) -> void:
 	handle_rotation(delta)
 	move_and_slide()
 	handle_animation()
+	update_height()
 	handle_fall()
 
 
-func handle_fall() -> void:
-	if not _fell_off and position.y < _fall_off_y:
-		_fell_off = true
-		fallen_off_sound.play()
+# --- Physics / Movement ---
+func handle_gravity(delta: float) -> void:
+	velocity.y -= gravity * delta
+	if is_on_floor():
+		velocity.y = jump_force
+
+
+func handle_rotation(delta: float) -> void:
+	if _fell_off:
+		return
+	if Input.is_action_pressed("left"):
+		rotate_y(rotation_speed * delta)
+	if Input.is_action_pressed("right"):
+		rotate_y(-rotation_speed * delta)
+
+
+func handle_movement() -> void:
+	if _fell_off:
+		velocity.x = 0.0
+		velocity.z = 0.0
+		return
+	var forward: Vector3 = transform.basis.z * Input.get_action_strength("forward")
+	velocity.x = forward.x * move_speed
+	velocity.z = forward.z * move_speed
 
 
 func handle_animation() -> void:
@@ -58,22 +80,19 @@ func handle_animation() -> void:
 	else:
 		animation_player.play("fall")
 
-# --- Physics / Movement ---
-func handle_gravity(delta: float) -> void:
-	velocity.y -= gravity * delta
-	if is_on_floor():
-		velocity.y = jump_force
-		
-func handle_rotation(delta: float) -> void:
-	if Input.is_action_pressed("left"):
-		rotate_y(ROTATION_SPEED * delta)
-	if Input.is_action_pressed("right"):
-		rotate_y(-ROTATION_SPEED * delta)
-		
-func handle_movement() -> void:
-	var forward: Vector3 = transform.basis.z * Input.get_action_strength("forward")
-	velocity.x = forward.x * MOVE_SPEED
-	velocity.z = forward.z * MOVE_SPEED
+
+func update_height() -> void:
+	if global_position.y > _best_height:
+		_best_height = global_position.y
+		_fall_off_y = _best_height - fall_off_margin
+		SignalHub.emit_new_height(int(_best_height))
+
+
+func handle_fall() -> void:
+	if not _fell_off and global_position.y < _fall_off_y:
+		_fell_off = true
+		fallen_off_sound.play()
+
 
 # --- Drop Shadow System ---
 func update_drop_shadow() -> void:
@@ -103,4 +122,4 @@ func update_drop_shadow() -> void:
 
 
 func _on_fallen_off_sound_finished() -> void:
-	print("Game Over")
+	SignalHub.emit_game_over()

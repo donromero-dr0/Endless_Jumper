@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cxouyjm7mm48d" path="res://scenes/spawner/spawner.tscn" id="3_kelw5"]
 [ext_resource type="PackedScene" uid="uid://dbkb8ao7sgvi1" path="res://scenes/playercamera/player_camera.tscn" id="4_kelw5"]
 [ext_resource type="AudioStream" uid="uid://02beaxvtmbn4" path="res://assets/audio/Jumping_Theme.mp3" id="5_lfrn8"]
+[ext_resource type="PackedScene" uid="uid://dyntsquxbyef5" path="res://scenes/game_ui/game_ui.tscn" id="6_5i0tg"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_sul5r"]
 panorama = ExtResource("1_sul5r")
@@ -40,3 +41,5 @@ stream = ExtResource("5_lfrn8")
 volume_db = -7.0
 autoplay = true
 parameters/looping = true
+
+[node name="GameUI" parent="." unique_id=1188022679 instance=ExtResource("6_5i0tg")]
